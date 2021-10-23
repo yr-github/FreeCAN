@@ -1,2 +1,2 @@
-# AutoCan
+# FreeCan
 An automated vehicle CAN network test tool
