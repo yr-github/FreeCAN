@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/">
+        <file alias="main.qml">main.qml</file>
+        <file alias="view/popUp/FocusTest.qml">view/popUp/FocusTest.qml</file>
+    </qresource>
+</RCC>
