@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <iostream>
-
+#include "utils/ParseXML.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     std::cout<<"application run"<<std::endl;
+    ParseXML m_parseXML("start.txt");
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;    
