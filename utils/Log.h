@@ -2,44 +2,57 @@
 #ifndef LOG_H
 #define LOG_H
 /*
+ *@Description: Log interface
  *
- *
- *
- *
+ *@
+ *@author Yuran Wang
 */
+
 #include <QObject>
 #include <iostream>
 #include <QTextStream>
 #include <QFile>
-#define LOG_INFO( x ) if(Log::getInstance()!=nullptr) Log::getInstance()->log(__FILE__, __LINE__,x);
-#define LOG_DEBUG(x...) if(Log::getInstance()!=nullptr) Log::getInstance()->logs(__FILE__, __LINE__,x);
+#include <QTime>
+#include <QDateTime>
+
+#define LOG_DEBUG(x...) if(Log::getDebugLogInstance()!=nullptr) Log::getDebugLogInstance()->logs(__FILE__, __LINE__,x);
+#define LOG_USER(x...) if(Log::getUserLogInstance()!=nullptr) Log::getUserLogInstance()->logs(__FILE__, __LINE__,x);
+#define LOG_INPUT(x...) if(Log::getInputLogInstance()!=nullptr) Log::getInputLogInstance()->logs(__FILE__, __LINE__,x);
+#define LOG_OUTPUT(x...) if(Log::getOutputLogInstance()!=nullptr) Log::getOutputLogInstance()->logs(__FILE__, __LINE__,x);
+
 
 class Log
 {
-public:
-    explicit Log(const QString& logfile);
-    static Log* getInstance();
-    void log(const char* file,int line,const QString& info);
+public:    
+    static Log* getUserLogInstance();
+    static Log* getInputLogInstance();
+    static Log* getOutputLogInstance();
+    static Log* getDebugLogInstance();
+    static void destroyLog();
+
+    void setPOutFile(QFile *newPOutFile);
     QFile* getFile();
+    void setPOutStream(QTextStream *newPOutStream);
     QTextStream* getOutStream();
-    template<typename T>
-    void writeFile(T& info){
-        this->getFile()->write(QString(info).toStdString().c_str());
-    }
+    ~Log();
+
+public:
     template<typename T>
     static void logs(const T& arg){
-        *(Log::getInstance()->getOutStream())<<arg<<"\n";
+        *(Log::getDebugLogInstance()->getOutStream())<<arg<<","<<QDateTime::currentDateTime().toString("hh:mm:ss.zzz")<<","<<QDateTime::currentMSecsSinceEpoch()<<"\n";
     }
     template<typename T ,typename ... Args>
     static void logs(const T& arg,const Args& ... pargs){
-        *(Log::getInstance()->getOutStream())<<arg<<",";
+        *(Log::getDebugLogInstance()->getOutStream())<<arg<<",";
         logs(pargs...);
     }
-    ~Log();
+
+
 private:
     Log();
-    QFile* outfile;
-    QTextStream* outStream;
+    void destroyInstance(Log* pLog);
+    QFile* m_pOutFile;
+    QTextStream* m_pOutStream;
 };
 
 

@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import "view/menu/"
-
+import LogWrapper 1.0
 ApplicationWindow {
     id:root
     width: 640
@@ -37,7 +37,11 @@ ApplicationWindow {
             anchors.top: parent.top
             onClicked: {
                directAddmsg.show()
+               LogWrapper.invokableLog("is this ok?")
             }
         }
+    }
+    onClosing: {
+        LogWrapper.closeLog()
     }
 }
