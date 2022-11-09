@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import "view/menu/"
+import "widgets"
 import LogWrapper 1.0
 ApplicationWindow {
     id:root
@@ -28,8 +29,9 @@ ApplicationWindow {
     Rectangle {
         id: rectangle
         anchors.fill: parent
-        Button {
+        Button_Wrapper {
             id: button
+            strUniqueId: "idAddMsgButton"
             x: 21
             y: 17
             text: qsTr("Button")

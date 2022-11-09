@@ -15,10 +15,10 @@
 #include <QTime>
 #include <QDateTime>
 
-#define LOG_DEBUG(x...) if(Log::getDebugLogInstance()!=nullptr) Log::getDebugLogInstance()->logs(__FILE__, __LINE__,x);
-#define LOG_USER(x...) if(Log::getUserLogInstance()!=nullptr) Log::getUserLogInstance()->logs(__FILE__, __LINE__,x);
-#define LOG_INPUT(x...) if(Log::getInputLogInstance()!=nullptr) Log::getInputLogInstance()->logs(__FILE__, __LINE__,x);
-#define LOG_OUTPUT(x...) if(Log::getOutputLogInstance()!=nullptr) Log::getOutputLogInstance()->logs(__FILE__, __LINE__,x);
+#define LOG_DEBUG(x...) if(Log::getDebugLogInstance()!=nullptr) Log::getDebugLogInstance()->writeLog(__FILE__, __LINE__,x);
+#define LOG_USER(x...) if(Log::getUserLogInstance()!=nullptr) Log::getUserLogInstance()->writeLog(__FILE__, __LINE__,x);
+#define LOG_INPUT(x...) if(Log::getInputLogInstance()!=nullptr) Log::getInputLogInstance()->writeLog(__FILE__, __LINE__,x);
+#define LOG_OUTPUT(x...) if(Log::getOutputLogInstance()!=nullptr) Log::getOutputLogInstance()->writeLog(__FILE__, __LINE__,x);
 
 
 class Log
@@ -38,13 +38,13 @@ public:
 
 public:
     template<typename T>
-    static void logs(const T& arg){
+    static void writeLog(const T& arg){
         *(Log::getDebugLogInstance()->getOutStream())<<arg<<","<<QDateTime::currentDateTime().toString("hh:mm:ss.zzz")<<","<<QDateTime::currentMSecsSinceEpoch()<<"\n";
     }
     template<typename T ,typename ... Args>
-    static void logs(const T& arg,const Args& ... pargs){
+    static void writeLog(const T& arg,const Args& ... pargs){
         *(Log::getDebugLogInstance()->getOutStream())<<arg<<",";
-        logs(pargs...);
+        writeLog(pargs...);
     }
 
 

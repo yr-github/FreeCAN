@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>widgets/Button_Widget.qml</file>
+        <file>widgets/Button_Wrapper.qml</file>
         <file>pic/plus_icon.svg</file>
         <file>view/menu/AddMSG.qml</file>
     </qresource>
