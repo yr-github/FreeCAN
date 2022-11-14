@@ -56,7 +56,7 @@ void PlayBackController::playUserLog()
         QList<QByteArray> lineSplits = line.split(',');
         LogModule logModule;
         std::vector<std::string> lineLogs;
-        for(auto split :lineSplits){
+        for(const auto &split : lineSplits){
             lineLogs.push_back(split.toStdString());
         }
         logModule.setVSlogs(lineLogs);
