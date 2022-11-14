@@ -4,6 +4,8 @@ import QtQuick.Controls 2.12
 import "view/menu/"
 import "widgets"
 import LogWrapper 1.0
+import PlayBackController 1.0
+
 ApplicationWindow {
     id:root
     width: 640
@@ -40,6 +42,17 @@ ApplicationWindow {
             onClicked: {
                directAddmsg.show()
                LogWrapper.invokableLog("is this ok?")
+            }
+        }
+        Button_Wrapper{
+            id: startPlayBack
+            strUniqueId: "idstartPlayBack"
+            text: qsTr("PlayBack")
+            anchors {
+                left: button.right
+            }
+            onClicked: {
+                PlayBackController.invokStartPlayBack()
             }
         }
     }

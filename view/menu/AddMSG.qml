@@ -48,7 +48,7 @@ Window{
             y: 17
             width: 80
             height: 22
-            text: qsTr("Message ID：")
+            text: qsTr("Message ID")
             font.pixelSize: 12
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter

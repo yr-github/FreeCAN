@@ -9,6 +9,8 @@ CONFIG += c++11
 SOURCES += \
         LogWrapper.cpp \
         main.cpp \
+        src/Controller/PlayBackController/PlayBackController.cpp \
+        src/LogModule.cpp \
         utils/Log.cpp \
         utils/ParseXML.cpp
 
@@ -29,5 +31,7 @@ DISTFILES +=
 
 HEADERS += \
     LogWrapper.h \
+    src/Controller/PlayBackController/PlayBackController.h \
+    src/LogModule.h \
     utils/Log.h \
     utils/ParseXML.h
