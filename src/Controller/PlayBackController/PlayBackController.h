@@ -2,11 +2,28 @@
 #define PLAYBACKCONTROLLER_H
 
 #include <QObject>
+#include <QThread>
 #include"src/LogModule.h"
 
 enum PLAYTYPE{
     USER = 0,
     OUTPUT
+};
+
+class PlayBackThread : public QThread
+{
+    Q_OBJECT
+public:
+    void run() override;
+
+    void setSfileName(const QString &newSfileName);
+
+    void setEtype(PLAYTYPE newEtype);
+signals:
+    void signaleUserEvent(QString);
+private:
+    QString m_SfileName;
+    PLAYTYPE m_Etype;
 };
 
 class PlayBackController : public QObject
@@ -20,14 +37,16 @@ public:
     Q_INVOKABLE void invokStopPlayBack();
     Q_INVOKABLE void invokPausePlayBack();
 
-
+signals:
+    void signaleUserEvent(QString);
 private:
     void DisableAllWidgets();
     std::vector<LogModule> m_VLlogList;
-    PLAYTYPE m_Ptype;
+    PLAYTYPE m_Etype;
     QString m_SfileName;
     void playUserLog();
     void playOutPutLog();
+    PlayBackThread* m_pPlbackThread;
 
 
 signals:

@@ -56,6 +56,13 @@ ApplicationWindow {
             }
         }
     }
+    Connections {
+        target: PlayBackController
+        function onSignaleUserEvent(strEventId){
+            console.log(strEventId)
+        }
+    }
+
     onClosing: {
         LogWrapper.closeLog()
     }

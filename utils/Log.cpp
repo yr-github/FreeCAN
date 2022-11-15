@@ -1,7 +1,7 @@
 #include "Log.h"
 
 #include <iostream>
-//TODO： four log
+//TODO：Feature four log
 //log 1: user click
 //log 2: output
 //log 3: input
@@ -103,7 +103,7 @@ void Log::destroyInstance(Log* pLog){
     }
 }
 
-//TODO: call this when user stop software
+//TODO: Feature call this when user stop software
 void Log::destroyLog()
 {
     m_pUserLog->destroyInstance(m_pUserLog);
