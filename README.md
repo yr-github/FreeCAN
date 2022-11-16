@@ -25,7 +25,21 @@ type:
 
 scope is commit's influence ,like module, view also can be folder name.
 
+scope：
+
+- view:trigger
+- view:dbfDesign
+- view:input
+- view:otherArea
+- Log
+- Doc
+- PlayBack:User
+- PlayBack:output
+- ...
+
 subject is commit Summary. should be short then 50 chars
+
+one commit just include one scope!
 
 # TODO
 
