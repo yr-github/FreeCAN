@@ -8,7 +8,7 @@ LogWrapper::LogWrapper(QObject *parent) : QObject(parent)
 
 void LogWrapper::invokableLog(QString info)
 {
- LOG_DEBUG(info);
+LOG_USER(info);
 }
 
 void LogWrapper::closeLog()
