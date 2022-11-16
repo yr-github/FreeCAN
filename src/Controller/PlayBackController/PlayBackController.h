@@ -14,6 +14,8 @@ class PlayBackThread : public QThread
 {
     Q_OBJECT
 public:
+    PlayBackThread(const QString &SfileName, PLAYTYPE Etype);
+
     void run() override;
 
     void setSfileName(const QString &newSfileName);
@@ -22,6 +24,8 @@ public:
 signals:
     void signaleUserEvent(QString);
 private:
+    void runUserPlayBack();
+    void runOutPutPlayBack();
     QString m_SfileName;
     PLAYTYPE m_Etype;
 };
@@ -41,11 +45,12 @@ signals:
     void signaleUserEvent(QString);
 private:
     void DisableAllWidgets();
+    void playUserLog();
+    void playOutPutLog();
+private:
     std::vector<LogModule> m_VLlogList;
     PLAYTYPE m_Etype;
     QString m_SfileName;
-    void playUserLog();
-    void playOutPutLog();
     PlayBackThread* m_pPlbackThread;
 
 

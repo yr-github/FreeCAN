@@ -28,34 +28,11 @@ ApplicationWindow {
             console.log("wyr::ondirectAddmsgClosing")
         }
     }
-    Rectangle {
-        id: rectangle
+    Trigger {
+        id:trigger
         anchors.fill: parent
-        Button_Wrapper {
-            id: button
-            strUniqueId: "idAddMsgButton"
-            x: 21
-            y: 17
-            text: qsTr("Button")
-            anchors.left: parent.left
-            anchors.top: parent.top
-            onClicked: {
-               directAddmsg.show()
-               LogWrapper.invokableLog("is this ok?")
-            }
-        }
-        Button_Wrapper{
-            id: startPlayBack
-            strUniqueId: "idstartPlayBack"
-            text: qsTr("PlayBack")
-            anchors {
-                left: button.right
-            }
-            onClicked: {
-                PlayBackController.invokStartPlayBack()
-            }
-        }
     }
+
     Connections {
         target: PlayBackController
         function onSignaleUserEvent(strEventId){

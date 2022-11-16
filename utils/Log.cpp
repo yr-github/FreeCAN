@@ -87,7 +87,8 @@ Log::~Log()
 
 }
 
-Log::Log()
+Log::Log() : m_pOutFile(nullptr),
+m_pOutStream(nullptr)
 {
 
 }

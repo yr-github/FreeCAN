@@ -1,7 +1,6 @@
 #include "LogModule.h"
 
-LogModule::LogModule():
-m_Ltime(1)
+LogModule::LogModule() : m_Ltime(0)
 {
     m_VSlogs.clear();
 }
