@@ -16,7 +16,7 @@
 #include <QDateTime>
 
 #define LOG_DEBUG(x...) if(Log::getDebugLogInstance()!=nullptr) Log::getDebugLogInstance()->writeLog(__FILE__, __LINE__,x);
-#define LOG_USER(x...) if(Log::getUserLogInstance()!=nullptr) Log::getUserLogInstance()->writeLog(__FILE__, __LINE__,x);
+#define LOG_USER(x...) if(Log::getUserLogInstance()!=nullptr) Log::getUserLogInstance()->writeLog(x);
 #define LOG_INPUT(x...) if(Log::getInputLogInstance()!=nullptr) Log::getInputLogInstance()->writeLog(__FILE__, __LINE__,x);
 #define LOG_OUTPUT(x...) if(Log::getOutputLogInstance()!=nullptr) Log::getOutputLogInstance()->writeLog(__FILE__, __LINE__,x);
 
