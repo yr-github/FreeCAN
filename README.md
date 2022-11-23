@@ -31,6 +31,7 @@ scope：
 - view:dbfDesign
 - view:input
 - view:otherArea
+- view:Pics
 - Log
 - Doc
 - PlayBack:User
