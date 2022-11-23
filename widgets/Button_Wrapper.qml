@@ -5,6 +5,6 @@ import LogWrapper 1.0
 Button{
     property string strUniqueId: ""
     onClicked: {
-        LogWrapper.invokableLog(strUniqueId)
+        LogWrapper.invokableLog(strUniqueId,"click")
     }
 }
