@@ -12,8 +12,7 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    std::cout<<"application run"<<std::endl;
-    ParseXML m_parseXML("start.txt");
+    std::cout<<"application run"<<std::endl;    
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;    
