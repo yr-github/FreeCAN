@@ -35,6 +35,7 @@ scope：
 - Doc
 - PlayBack:User
 - PlayBack:output
+- UML
 - ...
 
 subject is commit Summary. should be short then 50 chars
