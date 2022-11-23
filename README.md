@@ -9,7 +9,7 @@ in state 2 user can't click button,but could see output and input
 
 # commit message pattern
 
-    pattern: <type>(<scope>): <subject>
+    pattern: <type>(<scope>) : <subject>
 
 type:
 
@@ -37,6 +37,7 @@ scope：
 - PlayBack:User
 - PlayBack:output
 - UML
+- Scripts
 - ...
 
 subject is commit Summary. should be short then 50 chars

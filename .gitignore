@@ -56,3 +56,5 @@ compile_commands.json
 Debug.log
 test.log
 User.log
+.vscode/launch.json
+qml_qmlcache.qrc
