@@ -11,7 +11,7 @@ void LogWrapper::invokableLog(QString info)
 LOG_USER(info);
 }
 
-void LogWrapper::closeLog()
+void LogWrapper::invokableCloseLog()
 {
     Log::destroyLog();
 }

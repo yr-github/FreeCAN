@@ -9,7 +9,7 @@ class LogWrapper : public QObject
 public:
     explicit LogWrapper(QObject *parent = nullptr);
     Q_INVOKABLE void invokableLog(QString info);
-    Q_INVOKABLE void closeLog();
+    Q_INVOKABLE void invokableCloseLog();
 signals:
 
 };

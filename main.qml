@@ -41,6 +41,6 @@ ApplicationWindow {
     }
 
     onClosing: {
-        LogWrapper.closeLog()
+        LogWrapper.invokableCloseLog()
     }
 }
