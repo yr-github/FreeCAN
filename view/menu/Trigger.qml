@@ -5,7 +5,7 @@ import PlayBackController 1.0
 Item {
     QtObject{
         id: attributes
-
+        property var strMap: {"attribute":attributes};
     }
     Rectangle {
         id: rectangle
@@ -20,10 +20,10 @@ Item {
             anchors.top: parent.top
             onClicked: {
                directAddmsg.show()
-               LogWrapper.invokableLog("is this ok?")
+               LogWrapper.invokableUserLog("is this ok?")
             }
             Component.onCompleted: {
-                //attributes.strIdMap[strUniqueId]=button
+                attributes.strMap["idAddMsgButton"]=addMsgButton
             }
         }
         Button_Wrapper{
@@ -37,20 +37,19 @@ Item {
                 PlayBackController.invokStartPlayBack()
             }
             Component.onCompleted: {
-                //attributes.strIdMap[strUniqueId]=button
+                attributes.strMap[strUniqueId]=startPlayBack
             }
         }
     }
     Connections{
         target: PlayBackController
-        //TODO Feature: need qml map or other container
+        //DONE Feature: need qml map or other container
         function onSignaleUserEvent(strEventId){
-            console.log("onSignaleUserEvent:",strEventId)
-            switch(strEventId){
-            case "idAddMsgButton":
-                addMsgButton.clicked()
-                break;
+            if(undefined === console.log(attributes.strMap[strEventId])){
+                //TODO Feature: alert user?
+                LogWrapper.invokableDebugLog("Log have unmatched Item ID, Input Wrong Log?",1)
             }
+            attributes.strMap[strEventId].text = "Success!"
         }
     }
 
