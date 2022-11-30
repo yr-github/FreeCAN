@@ -51,3 +51,9 @@ type:
 - Feature
 - Question
 - Perf
+
+# Design
+
+1. Menubar should have edit/open/save/saveAs/new functions at least.
+2. Menubar could generate items in trigger.qml and refresh it
+3. signal name area should have link with bits area
