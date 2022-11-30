@@ -24,12 +24,11 @@ ApplicationWindow {
     }
     AddMSG {
         id:directAddmsg
-        onClosing:{
-            console.log("wyr::ondirectAddmsgClosing")
-        }
+        anchors.fill: parent
     }
     Trigger {
         id:trigger
+        visible: false
         anchors.fill: parent
     }
 
