@@ -11,6 +11,8 @@ SOURCES += \
         main.cpp \
         src/Controller/PlayBackController/PlayBackController.cpp \
         src/LogModule.cpp \
+        src/Model/DBFFileInfo.cpp \
+        src/Model/MessageModel.cpp \
         utils/Log.cpp \
         utils/ParseXML.cpp
 
@@ -34,5 +36,7 @@ HEADERS += \
     LogWrapper.h \
     src/Controller/PlayBackController/PlayBackController.h \
     src/LogModule.h \
+    src/Model/DBFFileInfo.h \
+    src/Model/MessageModel.h \
     utils/Log.h \
     utils/ParseXML.h

@@ -8,8 +8,8 @@ import PlayBackController 1.0
 
 ApplicationWindow {
     id:root
-    width: 640
-    height: 480
+    width: 1080
+    height: 720
     visible: true
     title: qsTr("FreeCAN")
     menuBar: MenuBar {

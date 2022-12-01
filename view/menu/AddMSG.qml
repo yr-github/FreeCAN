@@ -1,10 +1,15 @@
 import QtQuick 2.2
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-
+import DBFFileInfo 1.0
+import MessageModel 1.0
 Rectangle {
     visible: true
     id:page
+
+    Connections{
+        target: DBFFileInfo
+    }
 
     function caculateRelativelyHeight(){
         return 1
@@ -12,69 +17,112 @@ Rectangle {
     function caculateRelativelyWidth(){
         return 1
     }
+    RowLayout{
+        id: filenameRow
+        anchors{
+            top: parent.top
+            topMargin: 20
+        }
+        spacing: 5
 
-    TextField {
-        id: textField
-        x: 100
-        y: 16
-        width: 139
-        height: 23
-        placeholderText: qsTr("File Name")
+        Text {
+            id: text1
+            height: 23
+            text: qsTr("File Name：")
+            font.pixelSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            clip: true
+        }
+        TextField {
+            id: filenameText
+            text: DBFFileInfo.fileName
+            height: 23           
+        }
+        Text {
+            id: text2
+            height: 22
+            text: qsTr("Exist Message ID: ")
+            font.pixelSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            clip: true
+        }
+        ComboBox {
+            id: textField1
+            height: 23
+            model: MessageModel{
+                dbfInfo: DBFFileInfo
+            }
+            textRole: "messageName"
+        }
+        Text {
+            id: text3
+            height: 22
+            text: qsTr("New Message ID: ")
+            font.pixelSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            clip: true
+        }
+        TextField {
+            id: messageIDField
+            height: 23
+        }
+        Text {
+            id: text4
+            height: 22
+            text: qsTr("Name: ")
+            font.pixelSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            clip: true
+        }
+        TextField {
+            id: messageNameField
+            height: 23
+        }
+        Text {
+            id: text5
+            height: 22
+            text: qsTr("Length(Byte): ")
+            font.pixelSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            clip: true
+        }
+        TextField {
+            id: messageLengthField
+            height: 23
+            placeholderText: qsTr("8")
+        }
+        Button{
+            id: buttonAddMessage
+            text: qsTr("Add Message")
+            onClicked: {
+                //TODO: Feature add alert if property is wrong
+                DBFFileInfo.invokableAddVMessages(messageIDField.text,messageLengthField.text,messageNameField.text)
+            }
+        }
     }
-
-    ComboBox {
-        id: textField1
-        x: 346
-        y: 16
-        width: 122
-        height: 23
-        //placeholderText: qsTr("Text Field")
-    }
-
-    Text {
-        id: text1
-        x: 8
-        y: 16
-        width: 86
-        height: 23
-        text: qsTr("File Name：")
-        font.pixelSize: 12
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        clip: true
-    }
-
-    Text {
-        id: text2
-        x: 260
-        y: 17
-        width: 80
-        height: 22
-        text: qsTr("Message ID")
-        font.pixelSize: 12
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        clip: true
-    }
-
 
     RowLayout{
         id: signaleRow
-        x: 8
-        y: 58
+        anchors{
+            top: filenameRow.bottom
+            topMargin: 20
+        }
+
         height: 20
         spacing: 5
         Text {
-            id: text3
-
-//            width: 76
-//            height: 20
+            id: addSignalText
             text: qsTr("Add Signal:")
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
         }
         Text {
-            id: text4
+            id: signalNameText
 //            width: 76
 //            height: 20
             text: qsTr("Signal Name:")
@@ -92,7 +140,7 @@ Rectangle {
         }
 
         Text {
-            id: text5
+            id: startBitStaticText
 //            width: 76
 //            height: 20
             text: qsTr("Start Bit:")
@@ -101,7 +149,7 @@ Rectangle {
         }
 
         TextField {
-            id: startBit
+            id: startBitField
             width: 10
 //            height: 20
             //text: qsTr("Signal name:")
@@ -111,7 +159,7 @@ Rectangle {
         }
 
         Text {
-            id: text6
+            id: endBitText
 //            width: 76
 //            height: 20
             text: qsTr("End Bit:")
@@ -120,7 +168,7 @@ Rectangle {
         }
 
         TextField {
-            id: endBit
+            id: endBitField
             Layout.maximumWidth: 20
 //            height: 20
             //text: qsTr("Signal name:")
