@@ -13,6 +13,7 @@ SOURCES += \
         src/LogModule.cpp \
         src/Model/DBFFileInfo.cpp \
         src/Model/MessageModel.cpp \
+        src/Model/SignalModel.cpp \
         utils/Log.cpp \
         utils/ParseXML.cpp
 
@@ -38,5 +39,6 @@ HEADERS += \
     src/LogModule.h \
     src/Model/DBFFileInfo.h \
     src/Model/MessageModel.h \
+    src/Model/SignalModel.h \
     utils/Log.h \
     utils/ParseXML.h

@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import DBFFileInfo 1.0
 import MessageModel 1.0
+import SignalModel 1.0
 Rectangle {
     visible: true
     id:page
@@ -17,7 +18,7 @@ Rectangle {
     function caculateRelativelyWidth(){
         return 1
     }
-    RowLayout{
+    RowLayout {
         id: filenameRow
         anchors{
             top: parent.top
@@ -49,12 +50,20 @@ Rectangle {
             clip: true
         }
         ComboBox {
-            id: textField1
+            id: messageField
             height: 23
             model: MessageModel{
-                dbfInfo: DBFFileInfo
+                dbfInfo: DBFFileInfo                
             }
             textRole: "messageName"
+            property int iCurrentMessageId: 0
+            //TODO Feature binding with backend
+            property int iCurrentMessageLen: 8
+            signal  messageIdChanged()
+            onActivated: {
+                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))
+                messageIdChanged()
+            }
         }
         Text {
             id: text3
@@ -67,6 +76,7 @@ Rectangle {
         }
         TextField {
             id: messageIDField
+            Layout.maximumWidth: 60
             height: 23
         }
         Text {
@@ -80,6 +90,7 @@ Rectangle {
         }
         TextField {
             id: messageNameField
+            Layout.maximumWidth: 100
             height: 23
         }
         Text {
@@ -94,7 +105,7 @@ Rectangle {
         TextField {
             id: messageLengthField
             height: 23
-            placeholderText: qsTr("8")
+            Layout.maximumWidth: 30
         }
         Button{
             id: buttonAddMessage
@@ -106,7 +117,7 @@ Rectangle {
         }
     }
 
-    RowLayout{
+    RowLayout {
         id: signaleRow
         anchors{
             top: filenameRow.bottom
@@ -180,7 +191,7 @@ Rectangle {
             id: addSignale
             text: qsTr("Add Signal")
             onClicked:{
-
+                DBFFileInfo.invokableAddSignal(messageField.iCurrentMessageId,signalName.text,startBitField.text,endBitField.text);
             }
         }
     }
@@ -193,6 +204,7 @@ Rectangle {
     }
 
     GridView {
+        id: signalGridView
         anchors{
             left: signalAreaText.right
             leftMargin: 10
@@ -201,9 +213,18 @@ Rectangle {
         }
         width: 600
         height: 200
-        model: 7
+        model: SignalModel{
+            dbfInfo: DBFFileInfo
+            iCurrentMessageId: messageField.iCurrentMessageId
+        }
         delegate: Button{
-            text:qsTr("test")
+            text:model.signalNames
+        }
+        Connections{
+            target: messageField
+            function onMessageIdChanged() {
+                console.log(messageField.iCurrentMessageId)
+            }
         }
     }
     Text {
@@ -222,7 +243,9 @@ Rectangle {
         }
         width: 600
         height: 200
-        model: 7
+        model: {
+            8*messageField.iCurrentMessageLen
+        }
         delegate: Button{
             text:qsTr("haha")
         }

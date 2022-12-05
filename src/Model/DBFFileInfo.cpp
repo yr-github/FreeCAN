@@ -4,7 +4,6 @@
 DBFFileInfo::DBFFileInfo(QObject *parent): QObject(parent),
     m_sFilename("New file")
 {
-m_vMessages.push_back(Message(123,8,"SSS"));
 }
 
 const QString &DBFFileInfo::sFilename() const
@@ -28,21 +27,46 @@ void DBFFileInfo::setVMessages(const std::vector<Message> &newVMessages)
     m_vMessages = newVMessages;
 }
 
+const std::vector<Signal> &DBFFileInfo::GetCurrentSignalsById(int iId) const
+{
+
+    for(const auto & messgae:m_vMessages){
+        if(messgae.iID==iId){
+            return messgae.vSignals;
+        }
+    }
+    //TODO Feature this is a error state
+    return m_vMessages.begin()->vSignals;
+}
+
 void DBFFileInfo::invokableAddVMessages(const QString &iId,const QString &iLength,const QString &sMessageName)
 {
+    if(m_mNameId.find(sMessageName)==m_mNameId.end()){
+        m_mNameId[sMessageName]=iId.toInt();
+    }else{
+        //TODO: Feature alert user
+    }
     emit preMessageAppended();
-    m_vMessages.push_back(Message(iId.toInt(),iLength.toInt(),sMessageName));
+    m_vMessages.push_back(Message(iId.toInt(),iLength.toInt(),sMessageName));    
     emit postMessageAppended();
 }
 
 
-void DBFFileInfo::invokableAddSignal(const QString &iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit)
+void DBFFileInfo::invokableAddSignal(int iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit)
 {
     for(auto &message:m_vMessages){
-        if(message.iID==iId.toInt()){
+        if(message.iID==iId){
+            emit preSignalAppended(iId);
             message.vSignals.push_back(Signal(sSingalName,iStartBit.toInt(),iEndBit.toInt()));
+            emit postSignalAppended();
+            return;
         }
     }
+}
+
+int DBFFileInfo::invokableGetIdByName(const QString &sName)
+{
+    return m_mNameId.at(sName);
 }
 
 Message::Message(int id, int len, QString messageName):iID(id),

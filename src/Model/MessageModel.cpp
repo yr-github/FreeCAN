@@ -26,6 +26,7 @@ QVariant MessageModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case NameRole:
         LOG_DEBUG("message",m_dbfInfo->vMessages().at(index.row()).sMessageName)
+        //TODO: Feature the message should sort by ID?
         return m_dbfInfo->vMessages().at(index.row()).sMessageName;
     }
     // FIXME: Implement me!
@@ -70,17 +71,6 @@ bool MessageModel::setData(const QModelIndex &index, const QVariant &value, int 
     if (!m_dbfInfo)
         return false;
     std::vector<Message> item;
-//    switch (role) {
-//    case DoneRole:
-//        item.bDone = value.toBool();
-//    case DescriptionRole:
-//        item.sDescription = value.toString();
-//    }
-//    if (m_List->SetItemAt(item,index.row())){
-
-//        emit dataChanged(index, index, QVector<int>() << role);
-//        return true;
-//    }
     return false;
 }
 

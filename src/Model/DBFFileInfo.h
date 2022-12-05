@@ -43,9 +43,11 @@ public:
     const QString &sFilename() const;
     void setSFilename(const QString &newSFilename);    
     const std::vector<Message> &vMessages() const;
-    void setVMessages(const std::vector<Message> &newVMessages);    
+    void setVMessages(const std::vector<Message> &newVMessages);
+    const std::vector<Signal> &GetCurrentSignalsById(int iId) const;
     Q_INVOKABLE void invokableAddVMessages(const QString &iId,const QString &iLength,const QString &m_sMessageName);
-    Q_INVOKABLE void invokableAddSignal(const QString &iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit);
+    Q_INVOKABLE void invokableAddSignal(int iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit);
+    Q_INVOKABLE int invokableGetIdByName(const QString &sName);
 
 signals:
     void signalFilenameChanged();
@@ -53,10 +55,13 @@ signals:
     void preMessageAppended();
     void postMessageAppended();
 
+    void preSignalAppended(int id);
+    void postSignalAppended();
 private:
 
     QString m_sFilename;
     std::vector<Message> m_vMessages;
+    std::map<QString,int> m_mNameId;
 
 };
 
