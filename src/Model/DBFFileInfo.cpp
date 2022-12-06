@@ -69,11 +69,50 @@ int DBFFileInfo::invokableGetIdByName(const QString &sName)
     return m_mNameId.at(sName);
 }
 
+QString DBFFileInfo::invokableGetBitsColor(const int &iId, const int &index)
+{
+    for(const auto &message : m_vMessages){
+        if(iId==message.iID){
+            if(message.isBitsInMessage(index)){
+                return "red";
+            }else{
+                return "gray";
+            }
+        }
+    }
+    return "gray";
+}
+
+
 Message::Message(int id, int len, QString messageName):iID(id),
     iLength(len),
     sMessageName(messageName)
 {
 
+}
+
+bool Message::isBitsInMessage(const int &iBit) const
+{
+    bool result = false;
+    for(const auto& signal: vSignals){
+        if(signal.isBitsInSignal(iBit)){
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+bool Message::isSignalInMessage(const QString &sSignal)
+{
+    bool result = false;
+    for(const auto& signal: vSignals){
+        if(signal.sSignalName==sSignal){
+            result=true;
+            break;
+        }
+    }
+    return result;
 }
 
 bool Message::operator==(const Message &message)
@@ -106,6 +145,11 @@ Signal::Signal(QString signalName, int startBit, int endBit):sSignalName(signalN
     iEndBit(endBit)
 {
 
+}
+
+bool Signal::isBitsInSignal(const int &iBit) const
+{
+    return iBit>=iStartBit && iBit<=iEndBit;
 }
 
 bool Signal::operator==(const Signal &signal)

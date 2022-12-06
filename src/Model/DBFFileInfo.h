@@ -11,6 +11,7 @@ struct Signal{
     QString sSignalName;
     int iStartBit;
     int iEndBit;
+    bool isBitsInSignal(const int &iBit) const;
     bool operator==(const Signal& signal);
     bool operator<(const Signal& signal);
     bool operator>(const Signal& signal);
@@ -24,6 +25,8 @@ struct Message{
     int iLength;
     QString sMessageName;
     std::vector<Signal> vSignals;
+    bool isBitsInMessage(const int &iBit)const;
+    bool isSignalInMessage(const QString &sSignal);
     bool operator==(const Message& message);
     bool operator<(const Message& message);
     bool operator>(const Message& message);
@@ -48,6 +51,7 @@ public:
     Q_INVOKABLE void invokableAddVMessages(const QString &iId,const QString &iLength,const QString &m_sMessageName);
     Q_INVOKABLE void invokableAddSignal(int iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit);
     Q_INVOKABLE int invokableGetIdByName(const QString &sName);
+    Q_INVOKABLE QString invokableGetBitsColor(const int &iId,const int &index);
 
 signals:
     void signalFilenameChanged();

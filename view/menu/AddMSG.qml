@@ -205,6 +205,7 @@ Rectangle {
 
     GridView {
         id: signalGridView
+        signal buttonClicked()
         anchors{
             left: signalAreaText.right
             leftMargin: 10
@@ -213,17 +214,16 @@ Rectangle {
         }
         width: 600
         height: 200
+        cellWidth: 70
+        cellHeight: 30
         model: SignalModel{
             dbfInfo: DBFFileInfo
             iCurrentMessageId: messageField.iCurrentMessageId
         }
         delegate: Button{
             text:model.signalNames
-        }
-        Connections{
-            target: messageField
-            function onMessageIdChanged() {
-                console.log(messageField.iCurrentMessageId)
+            onClicked: {
+                signalGridView.buttonClicked();
             }
         }
     }
@@ -235,21 +235,36 @@ Rectangle {
     }
 
     GridView {
+        id: bitsView
         anchors{
             left: bitsAreaText.right
             leftMargin: 10
             top: signalAreaText.bottom
             topMargin: 10
         }
-        width: 600
+        cellWidth: 30
+        cellHeight: 30
+        width: 480
         height: 200
         model: {
             8*messageField.iCurrentMessageLen
         }
         delegate: Button{
-            text:qsTr("haha")
+            width: 30
+            text: index + 1
+            background: Rectangle{
+                id: rectCustomiz
+                implicitHeight: 30
+                implicitWidth: 30
+                color:DBFFileInfo.invokableGetBitsColor(messageField.iCurrentMessageId,index+1)
+                Connections{
+                    target: signalGridView
+                    function onButtonClicked(){
+                        //TODO Feature color need more perfomence implemention
+                        rectCustomiz.color = DBFFileInfo.invokableGetBitsColor(messageField.iCurrentMessageId,index+1)
+                    }
+                }
+            }
         }
     }
-
-
 }
