@@ -2,7 +2,7 @@
 
 
 DBFFileInfo::DBFFileInfo(QObject *parent): QObject(parent),
-    m_sFilename("New file")
+    m_sFilename("NewFile")
 {
 }
 
@@ -37,6 +37,13 @@ const std::vector<Signal> &DBFFileInfo::GetCurrentSignalsById(int iId) const
     }
     //TODO Feature this is a error state
     return m_vMessages.begin()->vSignals;
+}
+
+void DBFFileInfo::clearVMessages()
+{
+    emit signalBegainResetMessage();
+    m_vMessages.clear();
+    emit signalEndResetMessage();
 }
 
 void DBFFileInfo::invokableAddVMessages(const QString &iId,const QString &iLength,const QString &sMessageName)

@@ -3,10 +3,16 @@
 
 #include <QObject>
 #include <QtXml/QDomDocument>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include "src/Model/DBFFileInfo.h"
+
 class ParseXML
 {
 public:
-    explicit ParseXML(const QString& file);
+    explicit ParseXML();
+    void WriteFile(const DBFFileInfo* dbfInfo);
+    void ReadFile(DBFFileInfo* dbfInfo);
 };
 
 #endif // PARSEXML_H

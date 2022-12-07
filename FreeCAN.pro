@@ -1,5 +1,6 @@
 QT += quick
 QT += widgets
+QT += xml
 CONFIG += c++11
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -9,6 +10,7 @@ CONFIG += c++11
 SOURCES += \
         LogWrapper.cpp \
         main.cpp \
+        src/Controller/IODbfController/IODbfController.cpp \
         src/Controller/PlayBackController/PlayBackController.cpp \
         src/LogModule.cpp \
         src/Model/DBFFileInfo.cpp \
@@ -35,6 +37,7 @@ DISTFILES += \
 
 HEADERS += \
     LogWrapper.h \
+    src/Controller/IODbfController/IODbfController.h \
     src/Controller/PlayBackController/PlayBackController.h \
     src/LogModule.h \
     src/Model/DBFFileInfo.h \

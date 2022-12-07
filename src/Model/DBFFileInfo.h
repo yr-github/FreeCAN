@@ -48,12 +48,15 @@ public:
     const std::vector<Message> &vMessages() const;
     void setVMessages(const std::vector<Message> &newVMessages);
     const std::vector<Signal> &GetCurrentSignalsById(int iId) const;
+    void clearVMessages();
     Q_INVOKABLE void invokableAddVMessages(const QString &iId,const QString &iLength,const QString &m_sMessageName);
     Q_INVOKABLE void invokableAddSignal(int iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit);
     Q_INVOKABLE int invokableGetIdByName(const QString &sName);
     Q_INVOKABLE QString invokableGetBitsColor(const int &iId,const int &index);
 
 signals:
+    void signalBegainResetMessage();
+    void signalEndResetMessage();
     void signalFilenameChanged();
     void signalMessageAdd();
     void preMessageAppended();

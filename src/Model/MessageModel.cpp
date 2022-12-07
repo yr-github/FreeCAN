@@ -28,8 +28,7 @@ QVariant MessageModel::data(const QModelIndex &index, int role) const
         LOG_DEBUG("message",m_dbfInfo->vMessages().at(index.row()).sMessageName)
         //TODO: Feature the message should sort by ID?
         return m_dbfInfo->vMessages().at(index.row()).sMessageName;
-    }
-    // FIXME: Implement me!
+    }    
     return QVariant();
 }
 
@@ -41,9 +40,14 @@ DBFFileInfo *MessageModel::dbfInfo()
 void MessageModel::setdbfInfo(DBFFileInfo *newDbfInfo)
 {
     beginResetModel();
-    if(m_dbfInfo)
+    if(m_dbfInfo){
         m_dbfInfo->disconnect(this);
+        disconnect(m_dbfInfo,&DBFFileInfo::signalBegainResetMessage,this,&MessageModel::beginResetModel);
+        disconnect(m_dbfInfo,&DBFFileInfo::signalEndResetMessage,this,&MessageModel::endResetModel);
+    }
     m_dbfInfo=newDbfInfo;
+    connect(m_dbfInfo,&DBFFileInfo::signalBegainResetMessage,this,&MessageModel::beginResetModel);
+    connect(m_dbfInfo,&DBFFileInfo::signalEndResetMessage,this,&MessageModel::endResetModel);
     if(m_dbfInfo){
         connect(m_dbfInfo,&DBFFileInfo::preMessageAppended,this,[=](){
             const int index = m_dbfInfo->vMessages().size();
@@ -62,6 +66,7 @@ void MessageModel::setdbfInfo(DBFFileInfo *newDbfInfo)
     }
     endResetModel();
 }
+
 
 bool MessageModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {

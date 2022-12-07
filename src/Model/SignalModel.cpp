@@ -66,7 +66,7 @@ void SignalModel::setDbfInfo(DBFFileInfo *newDbfInfo)
     beginResetModel();
     if(m_pDbfInfo)
         m_pDbfInfo->disconnect(this);
-    m_pDbfInfo=newDbfInfo;
+    m_pDbfInfo=newDbfInfo;    
     if(m_pDbfInfo){
         connect(m_pDbfInfo,&DBFFileInfo::preSignalAppended,this,[=](int msgId){
             const int index = m_pDbfInfo->GetCurrentSignalsById(msgId).size();

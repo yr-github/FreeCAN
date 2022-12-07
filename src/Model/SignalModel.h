@@ -35,6 +35,8 @@ public:
     void setCurrentMessageId(int newCurrentMessageId);
 
 private:
+    //TODO Question need find a way to make sure
+    //this point didn't change data
     DBFFileInfo* m_pDbfInfo;
     int m_iCurrentMessageId;
     std::vector<Signal> m_vSignals;

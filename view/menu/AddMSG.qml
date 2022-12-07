@@ -4,13 +4,11 @@ import QtQuick.Layouts 1.12
 import DBFFileInfo 1.0
 import MessageModel 1.0
 import SignalModel 1.0
+import IODbfController 1.0
+
 Rectangle {
     visible: true
     id:page
-
-    Connections{
-        target: DBFFileInfo
-    }
 
     function caculateRelativelyHeight(){
         return 1
@@ -38,8 +36,27 @@ Rectangle {
         TextField {
             id: filenameText
             text: DBFFileInfo.fileName
-            height: 23           
+            height: 23
+            Layout.maximumWidth: 70
         }
+        Button{
+            id: saveFileButton
+            text: qsTr("Save File")
+            Layout.maximumWidth: 70
+            onClicked: {
+                IODbfController.invokableWriteFile(DBFFileInfo);
+            }
+        }
+
+        Button{
+            id: readFileButton
+            text: qsTr("Read File")
+            Layout.maximumWidth: 70
+            onClicked: {
+                IODbfController.invokableReadFile(DBFFileInfo);
+            }
+        }
+
         Text {
             id: text2
             height: 22
@@ -58,11 +75,9 @@ Rectangle {
             textRole: "messageName"
             property int iCurrentMessageId: 0
             //TODO Feature binding with backend
-            property int iCurrentMessageLen: 8
-            signal  messageIdChanged()
+            property int iCurrentMessageLen: 8            
             onActivated: {
-                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))
-                messageIdChanged()
+                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))                
             }
         }
         Text {
@@ -134,8 +149,6 @@ Rectangle {
         }
         Text {
             id: signalNameText
-//            width: 76
-//            height: 20
             text: qsTr("Signal Name:")
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
@@ -143,17 +156,12 @@ Rectangle {
 
         TextField {
             id: signalName
-//            width: 76
-//            height: 20
-            //text: qsTr("Signal name:")
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
         }
 
         Text {
             id: startBitStaticText
-//            width: 76
-//            height: 20
             text: qsTr("Start Bit:")
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
@@ -162,8 +170,6 @@ Rectangle {
         TextField {
             id: startBitField
             width: 10
-//            height: 20
-            //text: qsTr("Signal name:")
             Layout.maximumWidth: 20
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
@@ -171,8 +177,6 @@ Rectangle {
 
         Text {
             id: endBitText
-//            width: 76
-//            height: 20
             text: qsTr("End Bit:")
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
@@ -181,8 +185,6 @@ Rectangle {
         TextField {
             id: endBitField
             Layout.maximumWidth: 20
-//            height: 20
-            //text: qsTr("Signal name:")
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
         }

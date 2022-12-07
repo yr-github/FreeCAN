@@ -10,7 +10,7 @@ class MessageModel : public QAbstractListModel
 
 public:
     explicit MessageModel(QObject *parent = nullptr);
-    Q_PROPERTY(DBFFileInfo* dbfInfo READ dbfInfo WRITE setdbfInfo)
+    Q_PROPERTY(DBFFileInfo* dbfInfo READ dbfInfo WRITE setdbfInfo)    
     enum{
         NameRole = Qt::UserRole,
         IdRole
@@ -21,7 +21,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     DBFFileInfo *dbfInfo();
-    void setdbfInfo(DBFFileInfo* newDbfInfo);
+    void setdbfInfo(DBFFileInfo* newDbfInfo);    
 
     // Editable:
     bool setData(const QModelIndex &index, const QVariant &value,
