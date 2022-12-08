@@ -73,6 +73,7 @@ void DBFFileInfo::invokableAddSignal(int iId,const QString &sSingalName,const QS
 
 int DBFFileInfo::invokableGetIdByName(const QString &sName)
 {
+    if(m_mNameId.find(sName)==m_mNameId.end()){
         return 0;
     }
     return m_mNameId.at(sName);
