@@ -30,6 +30,7 @@ QVariant SignalModel::data(const QModelIndex &index, int role) const
         return QVariant();
     switch (role) {
     case SignalRole:
+        LOG_DEBUG(m_pDbfInfo->GetCurrentSignalsById(m_iCurrentMessageId).at(index.row()).sSignalName);
         return m_pDbfInfo->GetCurrentSignalsById(m_iCurrentMessageId).at(index.row()).sSignalName;
     }
     // FIXME: Implement me!

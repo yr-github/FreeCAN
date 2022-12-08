@@ -51,6 +51,7 @@ type:
 - Feature
 - Question
 - Perf
+- Bug
 
 # Design
 

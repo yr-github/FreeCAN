@@ -7,7 +7,7 @@ import SignalModel 1.0
 import IODbfController 1.0
 
 Rectangle {
-    visible: true
+    visible: false
     id:page
 
     function caculateRelativelyHeight(){
@@ -72,12 +72,16 @@ Rectangle {
             model: MessageModel{
                 dbfInfo: DBFFileInfo                
             }
+            currentIndex:0
             textRole: "messageName"
             property int iCurrentMessageId: 0
             //TODO Feature binding with backend
-            property int iCurrentMessageLen: 8            
-            onActivated: {
-                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))                
+            property int iCurrentMessageLen: 8
+//            onActivated: {
+//                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))
+//            }
+            onCurrentTextChanged: {
+                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))
             }
         }
         Text {
@@ -222,8 +226,9 @@ Rectangle {
             dbfInfo: DBFFileInfo
             iCurrentMessageId: messageField.iCurrentMessageId
         }
+        //TODO Bug always add 2 empty item to first signal
         delegate: Button{
-            text:model.signalNames
+            text: model.signalNames
             onClicked: {
                 signalGridView.buttonClicked();
             }
@@ -267,6 +272,12 @@ Rectangle {
                     }
                 }
             }
+        }
+    }
+    Connections{
+        target: root
+        function onNewFile(){
+            page.visible=true
         }
     }
 }

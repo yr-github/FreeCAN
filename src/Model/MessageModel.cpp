@@ -25,7 +25,6 @@ QVariant MessageModel::data(const QModelIndex &index, int role) const
         return QVariant();
     switch (role) {
     case NameRole:
-        LOG_DEBUG("message",m_dbfInfo->vMessages().at(index.row()).sMessageName)
         //TODO: Feature the message should sort by ID?
         return m_dbfInfo->vMessages().at(index.row()).sMessageName;
     }    
