@@ -37,26 +37,8 @@ Rectangle {
             id: filenameText
             text: DBFFileInfo.fileName
             height: 23
-            Layout.maximumWidth: 70
+            Layout.maximumWidth: 140
         }
-        Button{
-            id: saveFileButton
-            text: qsTr("Save File")
-            Layout.maximumWidth: 70
-            onClicked: {
-                IODbfController.invokableWriteFile(DBFFileInfo);
-            }
-        }
-
-        Button{
-            id: readFileButton
-            text: qsTr("Read File")
-            Layout.maximumWidth: 70
-            onClicked: {
-                IODbfController.invokableReadFile(DBFFileInfo);
-            }
-        }
-
         Text {
             id: text2
             height: 22
@@ -276,8 +258,16 @@ Rectangle {
     }
     Connections{
         target: root
-        function onNewFile(){
+        onNewFile:{
             page.visible=true
+        }
+        onOpenFile: (fileName)=>{
+            IODbfController.invokableReadFile(DBFFileInfo,fileName);
+            page.visible=true
+            console.log(fileName)
+        }
+        onSaveFile: (fileName)=> {
+            IODbfController.invokableWriteFile(DBFFileInfo,fileName);
         }
     }
 }

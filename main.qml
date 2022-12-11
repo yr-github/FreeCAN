@@ -1,4 +1,3 @@
-import Qt.labs.platform 1.1 as Platform
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
@@ -6,7 +5,7 @@ import "view/menu/"
 import "widgets"
 import LogWrapper 1.0
 import PlayBackController 1.0
-
+import QtQuick.Dialogs
 
 ApplicationWindow {
     id:root
@@ -15,10 +14,10 @@ ApplicationWindow {
     visible: true
     title: qsTr("FreeCAN")
     signal newFile();
-    signal openFile();
-    signal saveFile();
+    signal openFile(fileName: string);
+    signal saveFile(fileName: string);
     signal saveAsFile();
-    menuBar: MenuBar {
+    menuBar:  MenuBar {
         Menu {
             id: plugins_menu
             title: qsTr("Plugins")
@@ -35,14 +34,16 @@ ApplicationWindow {
             }
             MenuItem{
                 text: qsTr("Open")
-                onTriggered: {
-                    root.openFile()
+                onTriggered: {                    
+                    dbfFileDialog.fileMode=FileDialog.OpenFile
+                    dbfFileDialog.open()                    
                 }
             }
             MenuItem{
                 text: qsTr("Save File")
                 onTriggered: {
-                    root.saveFile()
+                    dbfFileDialog.fileMode=FileDialog.SaveFile
+                    dbfFileDialog.open()                    
                 }
             }
             MenuItem{
@@ -53,6 +54,7 @@ ApplicationWindow {
             }
         }
     }
+
     AddMSG {
         id:directAddmsg
         anchors.fill: parent
@@ -63,14 +65,26 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
+    DbfFileDialog{
+        id:dbfFileDialog
+        onAccepted: {
+            //TODO Bug: why fileUrl didn't work as help docs illustrate?
+            //console.log(dbfFileDialog.fileUrl," : ",dbfFileDialog.file,":",dbfFileDialog.currentFile)
+            fileMode===FileDialog.SaveFile?root.saveFile(dbfFileDialog.currentFile):root.openFile(dbfFileDialog.currentFile)
+        }
+    }
+
     Connections {
         target: PlayBackController
         function onSignaleUserEvent(strEventId){
             console.log(strEventId)
-        }
+        }        
     }
 
     onClosing: {
         LogWrapper.invokableCloseLog()
+    }
+    Component.onCompleted: {
+
     }
 }

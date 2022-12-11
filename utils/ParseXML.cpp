@@ -54,7 +54,7 @@ void ParseXML::ReadFile(DBFFileInfo *dbfInfo)
     int errorColumn;
     if(!doc.setContent(&readFile,&errorMsg,&errorLine,&errorColumn)){
         LOG_DEBUG(readFile.fileName(),errorMsg,errorLine,errorColumn)
-        readFile.close();
+                readFile.close();
         return;
     }
     readFile.close();
@@ -62,18 +62,16 @@ void ParseXML::ReadFile(DBFFileInfo *dbfInfo)
 
     QDomNode messageComponent = docElem.firstChild();
     while(!messageComponent.isNull()) {
-         QDomElement message = messageComponent.toElement();
-         if(!message.isNull()) {
-             //std::string sss = message.attribute("Name").toStdString();
-             dbfInfo->invokableAddVMessages(message.attribute("ID"),message.attribute("Length"),message.attribute("Name"));
-             //std::cout<<message.attribute("Name").toStdString()<<message.attribute("ID").toStdString();
-             QDomNode signalComponent = message.firstChild();
-             while (!signalComponent.isNull()) {
+        QDomElement message = messageComponent.toElement();
+        if(!message.isNull()) {
+            dbfInfo->invokableAddVMessages(message.attribute("ID"),message.attribute("Length"),message.attribute("Name"));
+            QDomNode signalComponent = message.firstChild();
+            while (!signalComponent.isNull()) {
                 QDomElement signalDetail = signalComponent.toElement();
                 dbfInfo->invokableAddSignal(message.attribute("ID").toInt(),signalDetail.attribute("Name"),signalDetail.attribute("StartBit"),signalDetail.attribute("EndBit"));
                 signalComponent = signalComponent.nextSibling();
-             }
-         }
-         messageComponent = messageComponent.nextSibling();
-     }
+            }
+        }
+        messageComponent = messageComponent.nextSibling();
+    }
 }

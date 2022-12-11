@@ -8,8 +8,8 @@ class IODbfController : public QObject
     Q_OBJECT
 public:
     explicit IODbfController(QObject *parent = nullptr);
-    Q_INVOKABLE void invokableWriteFile(DBFFileInfo* dbfFileInfo);
-    Q_INVOKABLE void invokableReadFile(DBFFileInfo* dbfFileInfo);
+    Q_INVOKABLE void invokableWriteFile(DBFFileInfo* dbfFileInfo,const QString& fileName);
+    Q_INVOKABLE void invokableReadFile(DBFFileInfo* dbfFileInfo, const QString& fileName);
 signals:
 
 };
