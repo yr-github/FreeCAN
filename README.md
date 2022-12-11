@@ -1,13 +1,21 @@
 # FreeCAN
+
 An automated vehicle CAN network test tool
 
-# SW State
+## Develop & Build Environment
+
+1. Qt6.2
+2. MinGW 8.1.0
+3. Windows 11
+
+## SW State
+
 1. normal state
 2. Log PlayBack state
 
 in state 2 user can't click button,but could see output and input
 
-# commit message pattern
+## commit message pattern
 
     pattern: <type>(<scope>) : <subject>
 
@@ -44,7 +52,7 @@ subject is commit Summary. should be short then 50 chars
 
 one commit just include one scope!
 
-# TODO
+## TODO
 
 type:
 
@@ -53,7 +61,7 @@ type:
 - Perf
 - Bug
 
-# Design
+## Design
 
 1. Menubar should have edit/open/save/saveAs/new functions at least.
 2. Menubar could generate items in trigger.qml and refresh it
