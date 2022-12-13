@@ -67,8 +67,7 @@ ApplicationWindow {
 
     DbfFileDialog{
         id:dbfFileDialog
-        onAccepted: {
-            //TODO Bug: why fileUrl didn't work as help docs illustrate?            
+        onAccepted: {         
             fileMode===FileDialog.SaveFile?root.saveFile(dbfFileDialog.selectedFile):root.openFile(dbfFileDialog.selectedFile)
         }
     }
