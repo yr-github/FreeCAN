@@ -6,5 +6,7 @@
         <file>view/menu/AddMSG.qml</file>
         <file>view/menu/Trigger.qml</file>
         <file>view/menu/DbfFileDialog.qml</file>
+        <file>view/popUp/AddMessage.qml</file>
+        <file>view/popUp/AddSignal.qml</file>
     </qresource>
 </RCC>

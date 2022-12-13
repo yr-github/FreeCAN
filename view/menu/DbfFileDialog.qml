@@ -7,11 +7,9 @@ import QtQuick.Dialogs
 FileDialog {
     id: fileDialog
     fileMode:FileDialog.OpenFile
+    selectedNameFilter.index: 1
     title: fileMode===FileDialog.OpenFile?"Please choose a file":"Save Xml File at..."
-    nameFilters: ["All files (*)","XML files (*.xml)"]
-//    onAccepted: {
-//        console.log("You chose: " + fileDialog.file)
-//    }
+    nameFilters: ["All files (*)", "XML files (*.xml)"]
 }
 
 

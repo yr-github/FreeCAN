@@ -68,12 +68,10 @@ ApplicationWindow {
     DbfFileDialog{
         id:dbfFileDialog
         onAccepted: {
-            //TODO Bug: why fileUrl didn't work as help docs illustrate?
-            //console.log(dbfFileDialog.fileUrl," : ",dbfFileDialog.file,":",dbfFileDialog.currentFile)
-            fileMode===FileDialog.SaveFile?root.saveFile(dbfFileDialog.currentFile):root.openFile(dbfFileDialog.currentFile)
+            //TODO Bug: why fileUrl didn't work as help docs illustrate?            
+            fileMode===FileDialog.SaveFile?root.saveFile(dbfFileDialog.selectedFile):root.openFile(dbfFileDialog.selectedFile)
         }
     }
-
     Connections {
         target: PlayBackController
         function onSignaleUserEvent(strEventId){

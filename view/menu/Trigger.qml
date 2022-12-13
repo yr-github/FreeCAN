@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import "../../widgets"
 import LogWrapper 1.0
 import PlayBackController 1.0

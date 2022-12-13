@@ -1,10 +1,11 @@
-import QtQuick 2.2
+import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import DBFFileInfo 1.0
 import MessageModel 1.0
 import SignalModel 1.0
 import IODbfController 1.0
+import "../popUp"
 
 Rectangle {
     visible: false
@@ -16,6 +17,16 @@ Rectangle {
     function caculateRelativelyWidth(){
         return 1
     }
+
+    AddMessage{
+        id:messageDialog
+    }
+
+    AddSignal{
+        id:signalDialog
+        iMessageId:messageField.iCurrentMessageId
+    }
+
     RowLayout {
         id: filenameRow
         anchors{
@@ -39,6 +50,37 @@ Rectangle {
             height: 23
             Layout.maximumWidth: 140
         }
+    }
+
+    Rectangle{
+        id:horizontalDividLine
+        height: 1
+        width: parent.width
+        color: "black"
+        anchors{
+            top: filenameRow.bottom
+            topMargin: 5
+        }
+    }
+    Rectangle{
+        id:verticalDividLine
+        height: parent.height
+        width: 1
+        color: "black"
+        anchors{
+            top: horizontalDividLine.bottom
+            left: page.left
+            leftMargin: 300
+        }
+    }
+    RowLayout{
+        anchors{
+            top: horizontalDividLine.bottom
+            topMargin: 5
+            left: parent.left
+            leftMargin: 10
+        }
+        spacing: 20
         Text {
             id: text2
             height: 22
@@ -48,146 +90,87 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             clip: true
         }
-        ComboBox {
-            id: messageField
-            height: 23
-            model: MessageModel{
-                dbfInfo: DBFFileInfo                
-            }
-            currentIndex:0
-            textRole: "messageName"
-            property int iCurrentMessageId: 0
-            //TODO Feature binding with backend
-            property int iCurrentMessageLen: 8
-//            onActivated: {
-//                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))
-//            }
-            onCurrentTextChanged: {
-                iCurrentMessageId = DBFFileInfo.invokableGetIdByName(textAt(currentIndex))
-            }
-        }
-        Text {
-            id: text3
-            height: 22
-            text: qsTr("New Message ID: ")
-            font.pixelSize: 12
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            clip: true
-        }
-        TextField {
-            id: messageIDField
-            Layout.maximumWidth: 60
-            height: 23
-        }
-        Text {
-            id: text4
-            height: 22
-            text: qsTr("Name: ")
-            font.pixelSize: 12
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            clip: true
-        }
-        TextField {
-            id: messageNameField
-            Layout.maximumWidth: 100
-            height: 23
-        }
-        Text {
-            id: text5
-            height: 22
-            text: qsTr("Length(Byte): ")
-            font.pixelSize: 12
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            clip: true
-        }
-        TextField {
-            id: messageLengthField
-            height: 23
-            Layout.maximumWidth: 30
-        }
         Button{
-            id: buttonAddMessage
+            id: openAddMessageWindow
             text: qsTr("Add Message")
             onClicked: {
-                //TODO: Feature add alert if property is wrong
-                DBFFileInfo.invokableAddVMessages(messageIDField.text,messageLengthField.text,messageNameField.text)
+                messageDialog.visible=true
             }
         }
     }
 
+    Item {
+
+        anchors{
+            top: horizontalDividLine.bottom
+            topMargin: 40
+            left: parent.left
+            leftMargin: 10
+        }
+
+        //Frame{
+            ListView{
+                id: messageField
+
+                implicitWidth: 250
+                implicitHeight: 250
+                clip: false
+                property int iCurrentMessageId: 0
+                property int iCurrentMessageLen: 8
+                model:MessageModel{
+                    dbfInfo: DBFFileInfo
+                }
+                delegate: RowLayout{
+                    TextField{
+                        Layout.fillWidth: true
+                        text: model.messageName
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                messageField.iCurrentMessageId = DBFFileInfo.invokableGetIdByName(parent.text)
+                            }
+                        }
+                    }
+                    Button{
+                        text: "Edit"
+                    }
+                    Button{
+                        text: "Delete"
+                    }
+                }
+            }
+        //}
+    }
+
+
     RowLayout {
         id: signaleRow
         anchors{
-            top: filenameRow.bottom
-            topMargin: 20
+            top: horizontalDividLine.bottom
+            topMargin: 10
+            left: signalGridView.right
+            leftMargin: 10
         }
 
         height: 20
         spacing: 5
-        Text {
-            id: addSignalText
-            text: qsTr("Add Signal:")
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-        Text {
-            id: signalNameText
-            text: qsTr("Signal Name:")
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        TextField {
-            id: signalName
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: startBitStaticText
-            text: qsTr("Start Bit:")
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        TextField {
-            id: startBitField
-            width: 10
-            Layout.maximumWidth: 20
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: endBitText
-            text: qsTr("End Bit:")
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        TextField {
-            id: endBitField
-            Layout.maximumWidth: 20
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
         Button {
             id: addSignale
             text: qsTr("Add Signal")
             onClicked:{
-                DBFFileInfo.invokableAddSignal(messageField.iCurrentMessageId,signalName.text,startBitField.text,endBitField.text);
+                signalDialog.visible=true
             }
         }
     }
 
     Text {
         id: signalAreaText
-        anchors.top: signaleRow.bottom
-        anchors.topMargin: 10
+        anchors{
+            top: horizontalDividLine.bottom
+            topMargin: 10
+            left: verticalDividLine.right
+            leftMargin: 20
+        }
         text: qsTr("Signal Area: ")
     }
 
@@ -197,8 +180,7 @@ Rectangle {
         anchors{
             left: signalAreaText.right
             leftMargin: 10
-            top: signaleRow.bottom
-            topMargin: 10
+            top: signalAreaText.top
         }
         width: 600
         height: 200
@@ -218,8 +200,11 @@ Rectangle {
     }
     Text {
         id: bitsAreaText
-        anchors.top: signalAreaText.bottom
-        anchors.topMargin: 10
+        anchors{
+            top: signalAreaText.bottom
+            topMargin: 10
+            left: signalAreaText.left
+        }
         text: qsTr("Bits Area: ")
     }
 
@@ -228,8 +213,7 @@ Rectangle {
         anchors{
             left: bitsAreaText.right
             leftMargin: 10
-            top: signalAreaText.bottom
-            topMargin: 10
+            top: bitsAreaText.top
         }
         cellWidth: 30
         cellHeight: 30
@@ -262,12 +246,12 @@ Rectangle {
             page.visible=true
         }
         onOpenFile: (fileName)=>{
-            IODbfController.invokableReadFile(DBFFileInfo,fileName);
-            page.visible=true
-            console.log(fileName)
-        }
+                        IODbfController.invokableReadFile(DBFFileInfo,fileName);
+                        page.visible=true
+                        console.log(fileName)
+                    }
         onSaveFile: (fileName)=> {
-            IODbfController.invokableWriteFile(DBFFileInfo,fileName);
-        }
+                        IODbfController.invokableWriteFile(DBFFileInfo,fileName);
+                    }
     }
 }

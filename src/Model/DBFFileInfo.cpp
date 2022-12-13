@@ -84,7 +84,7 @@ QString DBFFileInfo::invokableGetBitsColor(const int &iId, const int &index)
     for(const auto &message : m_vMessages){
         if(iId==message.iID){
             if(message.isBitsInMessage(index)){
-                return "red";
+                return "blue";
             }else{
                 return "gray";
             }
