@@ -122,6 +122,7 @@ Rectangle {
                 }
                 delegate: RowLayout{
                     TextField{
+                        id:messageNameDelegate
                         Layout.fillWidth: true
                         text: model.messageName
                         MouseArea{
@@ -129,10 +130,19 @@ Rectangle {
                             onClicked: {
                                 messageField.iCurrentMessageId = DBFFileInfo.invokableGetIdByName(parent.text)
                             }
+                            Component.onCompleted: {
+                                messageField.iCurrentMessageId = DBFFileInfo.invokableGetIdByName(parent.text)
+                            }
                         }
                     }
                     Button{
                         text: "Edit"
+                        onClicked: {
+                            messageDialog.visible= true
+                            messageField.iCurrentMessageId = DBFFileInfo.invokableGetIdByName(messageNameDelegate.text)
+                            messageDialog.invokMessageId=messageField.iCurrentMessageId.toString(16)
+                            messageDialog.invokMessageName=messageNameDelegate.text
+                        }
                     }
                     Button{
                         text: "Delete"

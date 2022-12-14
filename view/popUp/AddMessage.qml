@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import DBFFileInfo 1.0
 
 
@@ -10,22 +10,30 @@ Window {
     modality: Qt.WindowModal
     title: "Add Message"
     width: 400
+    property alias invokMessageId: messageIDField.text
+    property alias invokMessageName: messageNameField.text
 
     ColumnLayout{
         RowLayout{
             Text {
                 id: text3
                 height: 22
-                text: qsTr("New Message ID: ")
+                text: qsTr("New Message ID: 0X")
                 font.pixelSize: 12
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 clip: true
             }
-            TextField {
+            TextInput {
                 id: messageIDField
                 Layout.maximumWidth: 60
+                Layout.minimumWidth: 60
                 height: 23
+                //TODO Question:GUI use HEX , But backend use DEC currently
+                //when implement send data module to determin use DEC or HEX on backend
+                validator: RegularExpressionValidator { regularExpression: /[0-9a-fA-F]+/ }
+                onTextEdited: text=text.toUpperCase()
+                onTextChanged: text=text.toUpperCase()
             }
             Text {
                 id: text4

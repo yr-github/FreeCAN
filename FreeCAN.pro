@@ -37,6 +37,7 @@ DISTFILES += \
 
 HEADERS += \
     LogWrapper.h \
+    src/CommonEnum.h \
     src/Controller/IODbfController/IODbfController.h \
     src/Controller/PlayBackController/PlayBackController.h \
     src/LogModule.h \

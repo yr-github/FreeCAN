@@ -1,5 +1,6 @@
 #include "ParseXML.h"
 #include "Log.h"
+#include "../src/CommonEnum.h"
 ParseXML::ParseXML()
 {
 
@@ -21,7 +22,7 @@ void ParseXML::WriteFile(const DBFFileInfo *dbfInfo)
     for(const auto &message:dbfInfo->vMessages()){
         stream.writeStartElement("Message");
         stream.writeAttribute("Name",  message.sMessageName);
-        stream.writeAttribute("ID",  QString::number(message.iID));
+        stream.writeAttribute("ID",  QString::number(message.iID,NUM_FORMART::HEX));
         stream.writeAttribute("Length",  QString::number(message.iLength));
         for(const auto& signal:message.vSignals){
             stream.writeStartElement("Signal");

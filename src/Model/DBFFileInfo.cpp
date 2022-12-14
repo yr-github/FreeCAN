@@ -1,5 +1,5 @@
 #include "DBFFileInfo.h"
-
+#include "../CommonEnum.h"
 
 DBFFileInfo::DBFFileInfo(QObject *parent): QObject(parent),
     m_sFilename("NewFile")
@@ -48,13 +48,14 @@ void DBFFileInfo::clearVMessages()
 
 void DBFFileInfo::invokableAddVMessages(const QString &iId,const QString &iLength,const QString &sMessageName)
 {
+    bool _;
     if(m_mNameId.find(sMessageName)==m_mNameId.end()){
-        m_mNameId[sMessageName]=iId.toInt();
+        m_mNameId[sMessageName]=iId.toInt(&_,NUM_FORMART::HEX);
     }else{
         //TODO: Feature alert user
     }
     emit preMessageAppended();
-    m_vMessages.push_back(Message(iId.toInt(),iLength.toInt(),sMessageName));    
+    m_vMessages.push_back(Message(iId.toInt(&_,NUM_FORMART::HEX),iLength.toInt(),sMessageName));
     emit postMessageAppended();
 }
 
