@@ -46,7 +46,7 @@ void DBFFileInfo::clearVMessages()
     emit signalEndResetMessage();
 }
 
-void DBFFileInfo::invokableAddVMessages(const QString &iId,const QString &iLength,const QString &sMessageName)
+void DBFFileInfo::invokableAddVMessages(const QString &iId,const QString &iLength,const QString &sMessageName, const bool bIsStandard,const bool bIsIntel)
 {
     bool _;
     if(m_mNameId.find(sMessageName)==m_mNameId.end()){
@@ -55,7 +55,7 @@ void DBFFileInfo::invokableAddVMessages(const QString &iId,const QString &iLengt
         //TODO: Feature alert user
     }
     emit preMessageAppended();
-    m_vMessages.push_back(Message(iId.toInt(&_,NUM_FORMART::HEX),iLength.toInt(),sMessageName));
+    m_vMessages.push_back(Message(iId.toInt(&_,NUM_FORMART::HEX),iLength.toInt(),sMessageName,bIsStandard,bIsIntel));
     emit postMessageAppended();
 }
 
@@ -95,9 +95,11 @@ QString DBFFileInfo::invokableGetBitsColor(const int &iId, const int &index)
 }
 
 
-Message::Message(int id, int len, QString messageName):iID(id),
+Message::Message(int id, int len, QString messageName,bool isStandard,bool isIntel):iID(id),
     iLength(len),
-    sMessageName(messageName)
+    sMessageName(messageName),
+    bIsIntel(isIntel),
+    bIsStandard(isStandard)
 {
 
 }

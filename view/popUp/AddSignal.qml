@@ -9,7 +9,8 @@ Window {
     flags: Qt.Tool
     modality: Qt.WindowModal
     title: "Add Signal"
-    width: 400
+    width: 200
+    height: 300
     ColumnLayout{
         RowLayout{
             Text {

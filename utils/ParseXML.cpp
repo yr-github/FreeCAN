@@ -24,6 +24,8 @@ void ParseXML::WriteFile(const DBFFileInfo *dbfInfo)
         stream.writeAttribute("Name",  message.sMessageName);
         stream.writeAttribute("ID",  QString::number(message.iID,NUM_FORMART::HEX));
         stream.writeAttribute("Length",  QString::number(message.iLength));
+        stream.writeAttribute("FrameFormat",  QString::number(message.bIsStandard));
+        stream.writeAttribute("DataFormat",  QString::number(message.bIsIntel));
         for(const auto& signal:message.vSignals){
             stream.writeStartElement("Signal");
             stream.writeAttribute("Name",signal.sSignalName);
@@ -65,7 +67,8 @@ void ParseXML::ReadFile(DBFFileInfo *dbfInfo)
     while(!messageComponent.isNull()) {
         QDomElement message = messageComponent.toElement();
         if(!message.isNull()) {
-            dbfInfo->invokableAddVMessages(message.attribute("ID"),message.attribute("Length"),message.attribute("Name"));
+            dbfInfo->invokableAddVMessages(message.attribute("ID"),message.attribute("Length"),message.attribute("Name"),message.attribute("FrameFormat")==QStringLiteral("1")
+                                           ,message.attribute("DataFormat")==QStringLiteral("1"));
             QDomNode signalComponent = message.firstChild();
             while (!signalComponent.isNull()) {
                 QDomElement signalDetail = signalComponent.toElement();

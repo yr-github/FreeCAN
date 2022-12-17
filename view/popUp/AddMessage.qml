@@ -9,22 +9,22 @@ Window {
     flags: Qt.Tool
     modality: Qt.WindowModal
     title: "Add Message"
-    width: 400
     property alias invokMessageId: messageIDField.text
     property alias invokMessageName: messageNameField.text
-
+    width: 300
+    height: 400
     ColumnLayout{
         RowLayout{
             Text {
                 id: text3
                 height: 22
-                text: qsTr("New Message ID: 0X")
+                text: qsTr("ID: 0X")
                 font.pixelSize: 12
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 clip: true
             }
-            TextInput {
+            TextField {
                 id: messageIDField
                 Layout.maximumWidth: 60
                 Layout.minimumWidth: 60
@@ -65,13 +65,28 @@ Window {
                 height: 23
                 Layout.maximumWidth: 30
             }
-            Button{
-                id: buttonAddMessage
-                text: qsTr("Add Message")
-                onClicked: {
-                    //TODO: Feature add alert if property is wrong
-                    DBFFileInfo.invokableAddVMessages(messageIDField.text,messageLengthField.text,messageNameField.text)
-                }
+        }
+        RowLayout{
+            Text {
+                id: frameFormat
+                text: qsTr("Frame Format: ")
+            }
+            RadioButton {
+                checked: true
+                id:standareFrame
+                text: qsTr("Standard")
+            }
+            RadioButton {
+                id:extendedFrame
+                text: qsTr("Extended")
+            }
+        }
+        Button{
+            id: buttonAddMessage
+            text: qsTr("Add Message")
+            onClicked: {
+                //TODO: Feature add alert if property is wrong
+                DBFFileInfo.invokableAddVMessages(messageIDField.text,messageLengthField.text,messageNameField.text,standareFrame.checked,true)
             }
         }
     }

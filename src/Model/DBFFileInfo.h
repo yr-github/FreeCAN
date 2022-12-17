@@ -20,10 +20,12 @@ struct Signal{
 };
 
 struct Message{
-    explicit Message(int id,int len,QString messageName);
+    explicit Message(int id,int len,QString messageName,bool isStandard,bool isIntel=true);
     int iID;
     int iLength;
     QString sMessageName;
+    bool bIsIntel;//default true
+    bool bIsStandard;
     std::vector<Signal> vSignals;
     bool isBitsInMessage(const int &iBit)const;
     bool isSignalInMessage(const QString &sSignal);
@@ -49,7 +51,7 @@ public:
     void setVMessages(const std::vector<Message> &newVMessages);
     const std::vector<Signal> &GetCurrentSignalsById(int iId) const;
     void clearVMessages();
-    Q_INVOKABLE void invokableAddVMessages(const QString &iId,const QString &iLength,const QString &m_sMessageName);
+    Q_INVOKABLE void invokableAddVMessages(const QString &iId,const QString &iLength,const QString &m_sMessageName, const bool bIsStandard,const bool bIsIntel);
     Q_INVOKABLE void invokableAddSignal(int iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit);
     Q_INVOKABLE int invokableGetIdByName(const QString &sName);
     Q_INVOKABLE QString invokableGetBitsColor(const int &iId,const int &index);
