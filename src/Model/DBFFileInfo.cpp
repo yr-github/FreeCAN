@@ -50,22 +50,35 @@ void DBFFileInfo::invokableAddVMessages(const QString &iId,const QString &iLengt
 {
     bool _;
     if(m_mNameId.find(sMessageName)==m_mNameId.end()){
-        m_mNameId[sMessageName]=iId.toInt(&_,NUM_FORMART::HEX);
+        m_mNameId[sMessageName]=iId.toInt(&_,FreeCANEnum::NUM_FORMART::HEX);
     }else{
         //TODO: Feature alert user
     }
     emit preMessageAppended();
-    m_vMessages.push_back(Message(iId.toInt(&_,NUM_FORMART::HEX),iLength.toInt(),sMessageName,bIsStandard,bIsIntel));
+    m_vMessages.push_back(Message(iId.toInt(&_,FreeCANEnum::NUM_FORMART::HEX),iLength.toInt(),sMessageName,bIsStandard,bIsIntel));
     emit postMessageAppended();
 }
 
-
-void DBFFileInfo::invokableAddSignal(int iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit)
+void DBFFileInfo::invokableAddSignal(int iId, const QString &signalName, const QString &startBit, const QString &byteindex,
+                                     const QString &length, const QString &minValue, const QString &maxValue, const QString &signalFactor,
+                                     const QString &signalOffset, FreeCANEnum::SIGNAL_VALUE_TYPE valueType, const QString &unit, FreeCANEnum::SIGNAL_ORDER_TYPE orderType)
 {
+    bool _;
     for(auto &message:m_vMessages){
         if(message.iID==iId){
             emit preSignalAppended(iId);
-            message.vSignals.push_back(Signal(sSingalName,iStartBit.toInt(),iEndBit.toInt()));
+            message.vSignals.push_back(Signal(signalName,
+                                              startBit.toInt(),
+                                              byteindex.toInt(),
+                                              length.toInt(),
+                                              minValue.toLongLong(&_,FreeCANEnum::NUM_FORMART::HEX),
+                                              maxValue.toLongLong(&_,FreeCANEnum::NUM_FORMART::HEX),
+                                              signalFactor.toFloat(),
+                                              signalOffset.toFloat(),
+                                              valueType,
+                                              unit,
+                                              orderType
+                                              ));
             emit postSignalAppended();
             return;
         }
@@ -153,11 +166,22 @@ bool Message::operator<=(const Message &message)
     return this->iID<=message.iID;
 }
 
-Signal::Signal(QString signalName, int startBit, int endBit):sSignalName(signalName),
-    iStartBit(startBit),
-    iEndBit(endBit)
-{
 
+Signal::Signal(const QString &signalName, int startBit, int byteindex, int length, qint64 minValue, qint64 maxValue, float signalFactor, float signalOffset, FreeCANEnum::SIGNAL_VALUE_TYPE valueType
+               , const QString &unit, FreeCANEnum::SIGNAL_ORDER_TYPE orderType):
+    sSignalName(signalName),
+    iStartBit(startBit),
+    iByteindex(byteindex),
+    iLength(length),
+    iMinValue(minValue),
+    iMaxValue(maxValue),
+    fSignalFactor(signalFactor),
+    fSignalOffset(signalOffset),
+    eValueType(valueType),
+    sUnit(unit),
+    eOrderType(orderType)
+{
+    iEndBit=iStartBit+iLength;
 }
 
 bool Signal::isBitsInSignal(const int &iBit) const

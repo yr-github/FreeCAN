@@ -5,12 +5,33 @@
 #include <QBitArray>
 #include <vector>
 #include <map>
+#include "../CommonEnum.h"
 
 struct Signal{
-    explicit Signal(QString signalName,int startBit,int endBit);
+    explicit Signal(const QString &signalName,
+                    int startBit,
+                    int byteindex,
+                    int length,
+                    qint64 minValue,
+                    qint64 maxValue,
+                    float signalFactor,
+                    float signalOffset,
+                    FreeCANEnum::SIGNAL_VALUE_TYPE valueType,
+                    const QString &unit,
+                    FreeCANEnum::SIGNAL_ORDER_TYPE orderType);
     QString sSignalName;
     int iStartBit;
     int iEndBit;
+    int iByteindex;
+    int iLength;
+    qint64 iMinValue;
+    qint64 iMaxValue;
+    float  fSignalFactor;
+    float  fSignalOffset;
+    FreeCANEnum::SIGNAL_VALUE_TYPE eValueType;
+    QString sUnit;
+    FreeCANEnum::SIGNAL_ORDER_TYPE eOrderType;//motorola or intel
+
     bool isBitsInSignal(const int &iBit) const;
     bool operator==(const Signal& signal);
     bool operator<(const Signal& signal);
@@ -52,7 +73,9 @@ public:
     const std::vector<Signal> &GetCurrentSignalsById(int iId) const;
     void clearVMessages();
     Q_INVOKABLE void invokableAddVMessages(const QString &iId,const QString &iLength,const QString &m_sMessageName, const bool bIsStandard,const bool bIsIntel);
-    Q_INVOKABLE void invokableAddSignal(int iId,const QString &sSingalName,const QString &iStartBit,const QString &iEndBit);
+    Q_INVOKABLE void invokableAddSignal(int iId,const QString &signalName,const QString &startBit,const QString & byteindex,const QString & length
+                                        ,const QString & minValue,const QString & maxValue, const QString & signalFactor,const QString & signalOffset,FreeCANEnum::SIGNAL_VALUE_TYPE valueType,
+                                        const QString &unit,FreeCANEnum::SIGNAL_ORDER_TYPE orderType);
     Q_INVOKABLE int invokableGetIdByName(const QString &sName);
     Q_INVOKABLE QString invokableGetBitsColor(const int &iId,const int &index);
 

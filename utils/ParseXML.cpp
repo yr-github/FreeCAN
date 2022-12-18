@@ -22,7 +22,7 @@ void ParseXML::WriteFile(const DBFFileInfo *dbfInfo)
     for(const auto &message:dbfInfo->vMessages()){
         stream.writeStartElement("Message");
         stream.writeAttribute("Name",  message.sMessageName);
-        stream.writeAttribute("ID",  QString::number(message.iID,NUM_FORMART::HEX));
+        stream.writeAttribute("ID",  QString::number(message.iID,FreeCANEnum::NUM_FORMART::HEX));
         stream.writeAttribute("Length",  QString::number(message.iLength));
         stream.writeAttribute("FrameFormat",  QString::number(message.bIsStandard));
         stream.writeAttribute("DataFormat",  QString::number(message.bIsIntel));
@@ -30,7 +30,15 @@ void ParseXML::WriteFile(const DBFFileInfo *dbfInfo)
             stream.writeStartElement("Signal");
             stream.writeAttribute("Name",signal.sSignalName);
             stream.writeAttribute("StartBit",QString::number(signal.iStartBit));
-            stream.writeAttribute("EndBit",QString::number(signal.iEndBit));
+            stream.writeAttribute("ByteIndex",QString::number(signal.iByteindex));
+            stream.writeAttribute("Length",QString::number(signal.iLength));
+            stream.writeAttribute("MinValue",QString::number(signal.iMinValue));
+            stream.writeAttribute("MaxValue",QString::number(signal.iMaxValue));
+            stream.writeAttribute("Factor",QString::number(signal.fSignalFactor));
+            stream.writeAttribute("Offset",QString::number(signal.fSignalOffset));
+            stream.writeAttribute("ValueType",QString::number(signal.eValueType));
+            stream.writeAttribute("Unit",signal.sUnit);
+            stream.writeAttribute("OrderType",QString::number(signal.eOrderType));
             stream.writeEndElement();
         }
         stream.writeEndElement();
@@ -72,7 +80,19 @@ void ParseXML::ReadFile(DBFFileInfo *dbfInfo)
             QDomNode signalComponent = message.firstChild();
             while (!signalComponent.isNull()) {
                 QDomElement signalDetail = signalComponent.toElement();
-                dbfInfo->invokableAddSignal(message.attribute("ID").toInt(),signalDetail.attribute("Name"),signalDetail.attribute("StartBit"),signalDetail.attribute("EndBit"));
+                //dbfInfo->invokableAddSignal(message.attribute("ID").toInt(),signalDetail.attribute("Name"),signalDetail.attribute("StartBit"),signalDetail.attribute("EndBit"));
+                dbfInfo->invokableAddSignal(message.attribute("ID").toInt(),
+                                            signalDetail.attribute("Name"),
+                                            signalDetail.attribute("StartBit"),
+                                            signalDetail.attribute("ByteIndex"),
+                                            signalDetail.attribute("Length"),
+                                            signalDetail.attribute("MinValue"),
+                                            signalDetail.attribute("MaxValue"),
+                                            signalDetail.attribute("Factor"),
+                                            signalDetail.attribute("Offset"),
+                                            static_cast<FreeCANEnum::SIGNAL_VALUE_TYPE>(signalDetail.attribute("ValueType").toInt()),
+                                            signalDetail.attribute("Unit"),
+                                            static_cast<FreeCANEnum::SIGNAL_ORDER_TYPE>(signalDetail.attribute("OrderType").toInt()));
                 signalComponent = signalComponent.nextSibling();
             }
         }

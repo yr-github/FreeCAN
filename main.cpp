@@ -9,7 +9,7 @@
 #include "src/Model/MessageModel.h"
 #include "src/Model/SignalModel.h"
 #include "src/Controller/IODbfController/IODbfController.h"
-
+#include "src/CommonEnum.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     //register qml model
     qmlRegisterType<MessageModel>("MessageModel",1,0,"MessageModel");
     qmlRegisterType<SignalModel>("SignalModel",1,0,"SignalModel");
+    qmlRegisterType<FreeCANEnum>("FreeCANEnum", 1, 0, "FreeCANEnum");
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
